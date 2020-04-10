@@ -1,0 +1,8 @@
+// Action types
+export const LOAD_PRODUCTS_START = 'LOAD_PRODUCTS_START';
+export const LOAD_PRODUCTS_END = 'LOAD_PRODUCTS_END';
+export const LOAD_PRODUCTS_ERROR = 'LOAD_PRODUCTS_ERROR';
+
+export const LOAD_CART_START = 'LOAD_CART_START';
+export const LOAD_CART_END = 'LOAD_CART_END';
+export const LOAD_CART_ERROR = 'LOAD_CART_ERROR';

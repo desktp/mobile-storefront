@@ -7,16 +7,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProductList from './components/ProductList';
 import Cart from './components/Cart'
 
+import { StateProvider } from './state';
+import reducer, { initialState } from './reducer';
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="ProductList" component={ProductList} />
-        <Stack.Screen name="Cart" component={Cart} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <StateProvider reducer={reducer} initialState={initialState}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="ProductList" component={ProductList} />
+          <Stack.Screen name="Cart" component={Cart} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StateProvider>
   );
 }
 
