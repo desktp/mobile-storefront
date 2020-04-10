@@ -1,5 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
+// import { Container, Text } from 'native-base';
+import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,24 +16,73 @@ import reducer, { initialState } from './reducer';
 
 const Stack = createStackNavigator();
 
-export default function App() {
-  return (
-    <StateProvider reducer={reducer} initialState={initialState}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="ProductList" component={ProductList} />
-          <Stack.Screen name="Cart" component={Cart} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </StateProvider>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isReady: false,
+    };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+
+    this.setState({ isReady: true });
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return <AppLoading />;
+    }
+
+    return (
+      <StateProvider reducer={reducer} initialState={initialState}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="ProductList"
+              component={ProductList}
+              options={{
+                header: () => (
+                  <Header searchBar rounded>
+                    <Item>
+                      <Icon name="ios-search" />
+                      <Input placeholder="Buscar..." />
+                    </Item>
+                  </Header>
+                )
+              }}
+            />
+            <Stack.Screen name="Cart" component={Cart} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StateProvider>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// export default function App() {
+//   return (
+//     <StateProvider reducer={reducer} initialState={initialState}>
+//       <NavigationContainer>
+//         <Stack.Navigator>
+//           <Stack.Screen name="ProductList" component={ProductList} />
+//           <Stack.Screen name="Cart" component={Cart} />
+//         </Stack.Navigator>
+//       </NavigationContainer>
+//     </StateProvider>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
