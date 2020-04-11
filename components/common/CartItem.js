@@ -12,7 +12,7 @@ export default ({ cartItem = {}, removeFromCart, updateCart }) => {
 
   const handleSetQtyToAdd = (qty) => {
     const nQty = Number(qty);
-    if (nQty === NaN || nQty < 0) return;
+    if (Number.isNaN(nQty) || nQty < 0) return;
     setQtyToAdd(Number(qty));
   }
 

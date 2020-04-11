@@ -5,13 +5,13 @@ import { Image, StyleSheet } from 'react-native';
 export default ({ product = {}, addToCart }) => {
   const [qtyToAdd, setQtyToAdd] = useState(1);
 
-  const increaseQty = () => setQtyToAdd(Number(qtyToAdd) + 1);
-  const decreaseQty = () => setQtyToAdd(Number(qtyToAdd) - 1);
+  const increaseQty = () => handleSetQtyToAdd(Number(qtyToAdd) + 1);
+  const decreaseQty = () => handleSetQtyToAdd(Number(qtyToAdd) - 1);
 
   const handleSetQtyToAdd = (qty) => {
     const nQty = Number(qty);
-    if (nQty === NaN || nQty < 0) return;
-    setQtyToAdd(Number(qty));
+    if (Number.isNaN(nQty) || nQty < 0) return;
+    setQtyToAdd(nQty);
   }
 
 
