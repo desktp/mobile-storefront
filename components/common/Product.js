@@ -10,10 +10,9 @@ export default ({ product = {}, addToCart }) => {
 
   const handleSetQtyToAdd = (qty) => {
     const nQty = Number(qty);
-    if (Number.isNaN(nQty) || nQty < 0) return;
+    if (Number.isNaN(nQty) || nQty < 0 || nQty > product.quantityAvailable) return;
     setQtyToAdd(nQty);
   }
-
 
   const submitAddToCart = () => addToCart(product.sku, qtyToAdd);
 
@@ -46,7 +45,7 @@ export default ({ product = {}, addToCart }) => {
       </CardItem>
       <CardItem>
         <View style={styles.cartQtyContainer}>
-          <Button transparent small onPress={decreaseQty}>
+          <Button transparent small onPress={decreaseQty} disabled={qtyToAdd <= 1}>
             <Icon ios='ios-arrow-down' android='ios-arrow-down' />
           </Button>
           <Item>
@@ -57,7 +56,7 @@ export default ({ product = {}, addToCart }) => {
               style={styles.qtyInput}
             />
           </Item>
-          <Button transparent small onPress={increaseQty}>
+          <Button transparent small onPress={increaseQty} disabled={qtyToAdd >= product.quantityAvailable}>
             <Icon ios='ios-arrow-up' android='ios-arrow-up' />
           </Button>
         </View>

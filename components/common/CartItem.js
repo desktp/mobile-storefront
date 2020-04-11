@@ -12,7 +12,7 @@ export default ({ cartItem = {}, removeFromCart, updateCart }) => {
 
   const handleSetQtyToAdd = (qty) => {
     const nQty = Number(qty);
-    if (Number.isNaN(nQty) || nQty < 0) return;
+    if (Number.isNaN(nQty) || nQty < 0 || nQty >= product.quantityAvaiable) return;
     setQtyToAdd(Number(qty));
   }
 
@@ -43,7 +43,7 @@ export default ({ cartItem = {}, removeFromCart, updateCart }) => {
       </View>
       <View style={styles.actionContainer}>
         <View style={styles.cartQtyContainer}>
-          <Button transparent small onPress={increaseQty}>
+          <Button transparent small onPress={increaseQty} disabled={qtyToAdd >= product.quantityAvailable}>
             <Icon ios='ios-arrow-up' android='ios-arrow-up' />
           </Button>
           <Item>
@@ -54,7 +54,7 @@ export default ({ cartItem = {}, removeFromCart, updateCart }) => {
               style={styles.qtyInput}
             />
           </Item>
-          <Button transparent small onPress={decreaseQty}>
+          <Button transparent small onPress={decreaseQty} disabled={qtyToAdd <= 1}>
             <Icon ios='ios-arrow-down' android='ios-arrow-down' />
           </Button>
         </View>
