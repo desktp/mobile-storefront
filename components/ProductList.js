@@ -9,12 +9,15 @@ import { loadProducts, loadCart } from '../actions';
 
 export default ({ navigation }) => {
   const [{ products, loadingProducts }, dispatch] = useStateValue();
-  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
+    initialize();
+  }, [loadProducts, loadCart]);
+
+  const initialize = () => {
     loadProducts(dispatch);
     loadCart(dispatch);
-  }, [loadProducts, loadCart]);
+  }
 
   if (!products.length) return <Text>Loading</Text>;
 
@@ -24,6 +27,8 @@ export default ({ navigation }) => {
         data={products}
         renderItem={({ item }) => <Product product={item} />}
         keyExtractor={item => item.sku}
+        onRefresh={initialize}
+        refreshing={loadingProducts}
       />
     </Container>
   );

@@ -3,12 +3,12 @@ import { Container, Text } from 'native-base';
 import { FlatList, StyleSheet } from 'react-native';
 
 import { useStateValue } from '../state';
-import { updateCart, removeFromCart } from '../actions';
+import { updateCart, removeFromCart, loadCart } from '../actions';
 
 import { CartItem } from './common';
 
 export default () => {
-  const [{ cart }, dispatch] = useStateValue();
+  const [{ cart, loadingCart }, dispatch] = useStateValue();
 
   if (!cart.length) return (
     <Container style={styles.empty}>
@@ -24,6 +24,8 @@ export default () => {
         data={cart}
         renderItem={({ item }) => <CartItem cartItem={item} updateCart={updateCart(dispatch)} removeFromCart={removeFromCart(dispatch)} />}
         keyExtractor={item => item.product.sku}
+        onRefresh={() => loadCart(dispatch)}
+        refreshing={loadingCart}
       />
     </Container>
   );
