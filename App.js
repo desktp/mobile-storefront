@@ -2,18 +2,11 @@ import React from 'react';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
-import { Root, Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
+import { Root } from 'native-base';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-import ProductList from './components/ProductList';
-import Cart from './components/Cart'
-
+import Navigator from './Navigator';
 import { StateProvider } from './state';
 import reducer, { initialState } from './reducer';
-
-const Stack = createStackNavigator();
 
 export default class App extends React.Component {
   constructor(props) {
@@ -41,50 +34,9 @@ export default class App extends React.Component {
     return (
       <Root>
         <StateProvider reducer={reducer} initialState={initialState}>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="ProductList"
-                component={ProductList}
-                options={{
-                  header: props => (
-                    <Header searchBar rounded>
-                      <Item>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Buscar..." />
-                      </Item>
-                      <Button onPress={() => props.navigation.navigate('Cart')}><Text>Cart</Text></Button>
-                    </Header>
-                  )
-                }}
-              />
-              <Stack.Screen name="Cart" component={Cart} />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <Navigator />
         </StateProvider>
       </Root>
     );
   }
 }
-
-// export default function App() {
-//   return (
-//     <StateProvider reducer={reducer} initialState={initialState}>
-//       <NavigationContainer>
-//         <Stack.Navigator>
-//           <Stack.Screen name="ProductList" component={ProductList} />
-//           <Stack.Screen name="Cart" component={Cart} />
-//         </Stack.Navigator>
-//       </NavigationContainer>
-//     </StateProvider>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
