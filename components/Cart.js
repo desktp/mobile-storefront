@@ -29,7 +29,7 @@ export default () => {
   const cartTotal = data.reduce((acc, current) => {
     return acc + (current.product.price * current.quantity);
   }, 0);
-  const splitPrice = cartTotal.toString().split('.');
+  const splitPrice = cartTotal.toFixed(2).toString().split('.');
 
   return (
     <Container>

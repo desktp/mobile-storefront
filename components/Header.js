@@ -36,7 +36,7 @@ export default ({ scene, previous, navigation }) => {
   )
 
   return (
-    <Header>
+    <Header noLeft={!previous}>
       <Left>
         {previous &&
           <Button transparent onPress={() => navigation.goBack()}>
@@ -46,7 +46,7 @@ export default ({ scene, previous, navigation }) => {
         }
       </Left>
       <Body>
-        <Text>{title}</Text>
+        <Text style={styles.title}>{title}</Text>
       </Body>
         <Right>
           <Button transparent onPress={() => setSearchOpen(true)}>
@@ -70,5 +70,8 @@ const styles = StyleSheet.create({
     top: 8,
     width: 10,
     height: 12,
+  },
+  title: {
+    color: Platform.OS === 'ios' ? 'black' : 'white'
   }
 });

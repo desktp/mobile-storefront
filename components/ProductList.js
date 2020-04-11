@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { Container, Text } from 'native-base';
 
-import Product from './common/Product';
+import { Product, LoadingPlaceholder } from './common';
 
 import { useStateValue } from '../state';
 import { loadProducts, loadCart, addToCart } from '../actions';
@@ -19,7 +19,12 @@ export default () => {
     loadCart(dispatch);
   }
 
-  if (!products.length) return <Text>Loading</Text>;
+  if (!products.length) return (
+    <Container>
+      <LoadingPlaceholder />
+      <LoadingPlaceholder />
+    </Container>
+  );
 
   const data = searchingProducts ? filteredProducts : products;
 
