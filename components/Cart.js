@@ -1,16 +1,23 @@
-import React, { useEffect } from 'react';
-import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
-
+import React from 'react';
+import { Container, Text } from 'native-base';
+import { FlatList } from 'react-native';
 
 import { useStateValue } from '../state';
-import { loadProducts, loadCart } from '../actions';
+
+import { CartItem } from './common';
 
 export default ({ navigation }) => {
-  const [{ cart, loadingProducts }, dispatch] = useStateValue();
+  const [{ cart }] = useStateValue();
+
+  if (!cart.length) return <Text>Loading</Text>;
 
   return (
     <Container>
-      <Text>{JSON.stringify(cart)}</Text>
+      <FlatList
+        data={cart}
+        renderItem={({ item }) => <CartItem cartItem={item} />}
+        keyExtractor={item => item.product.sku}
+      />
     </Container>
   );
 }

@@ -16,29 +16,10 @@ export default ({ navigation }) => {
     loadCart(dispatch);
   }, [loadProducts, loadCart]);
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions(() => ({
-  //     header: () => (
-  //       <Header searchBar rounded>
-  //         <Item>
-  //           <Icon name="ios-search" />
-  //           <Input placeholder="Buscar..." />
-  //         </Item>
-  //       </Header>
-  //     )
-  //   }));
-  // }, [navigation, setSearchText, searchText]);
-
   if (!products.length) return <Text>Loading</Text>;
 
   return (
     <Container>
-      {/* <Header searchBar rounded>
-        <Item>
-          <Icon name="ios-search" />
-          <Input placeholder="Buscar..." />
-        </Item>
-      </Header> */}
       <FlatList
         data={products}
         renderItem={({ item }) => <Product product={item} />}
