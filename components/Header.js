@@ -4,9 +4,11 @@ import { Header, Item, Input, Icon, Button, Text, Body, Right, Left, Badge } fro
 
 import { useStateValue } from '../state';
 
+import { filterProducts, filterCart } from '../actions';
+
 export default ({ scene, previous, navigation }) => {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [{ cart }] = useStateValue();
+  const [{ cart }, dispatch] = useStateValue();
 
   const { options } = scene.descriptor;
   const title =
@@ -16,12 +18,17 @@ export default ({ scene, previous, navigation }) => {
       ? options.title
       : scene.route.name;
 
+  const closeSearch = () => {
+    setSearchOpen(false);
+    scene.route.name === 'Cart' ? filterCart(dispatch)() : filterProducts(dispatch)();
+  }
+
   if (searchOpen) return (
     <Header searchBar>
       <Item>
         <Icon name='ios-search' />
-        <Input placeholder='Search' />
-        <Button transparent onPress={() => setSearchOpen(false)}>
+        <Input placeholder='Search' onChangeText={scene.route.name === 'Cart' ? filterCart(dispatch) : filterProducts(dispatch) } />
+        <Button transparent onPress={closeSearch}>
           <Icon name='ios-close' />
         </Button>
       </Item>

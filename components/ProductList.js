@@ -1,14 +1,14 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { FlatList } from 'react-native';
-import { Container, Header, Item, Input, Icon, Button, Text } from 'native-base';
+import React, { useEffect } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import { Container, Text } from 'native-base';
 
 import Product from './common/Product';
 
 import { useStateValue } from '../state';
-import { loadProducts, loadCart } from '../actions';
+import { loadProducts, loadCart, addToCart } from '../actions';
 
-export default ({ navigation }) => {
-  const [{ products, loadingProducts }, dispatch] = useStateValue();
+export default () => {
+  const [{ products, filteredProducts, loadingProducts, searchingProducts }, dispatch] = useStateValue();
 
   useEffect(() => {
     initialize();
@@ -21,11 +21,19 @@ export default ({ navigation }) => {
 
   if (!products.length) return <Text>Loading</Text>;
 
+  const data = searchingProducts ? filteredProducts : products;
+
+  if (searchingProducts && !filteredProducts.length) return (
+    <Container style={styles.empty}>
+      <Text>Nenhum produto encontrado!</Text>
+    </Container>
+  );
+
   return (
     <Container>
       <FlatList
-        data={products}
-        renderItem={({ item }) => <Product product={item} />}
+        data={data}
+        renderItem={({ item }) => <Product product={item} addToCart={addToCart(dispatch)} />}
         keyExtractor={item => item.sku}
         onRefresh={initialize}
         refreshing={loadingProducts}
@@ -33,3 +41,10 @@ export default ({ navigation }) => {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  empty: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})

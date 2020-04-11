@@ -62,7 +62,7 @@ export const addToCart = dispatch => async (sku, quantity) => {
 }
 
 export const updateCart = dispatch => async (sku, quantity) => {
-  dispatch({ type: types.UPDATE_START });
+  dispatch({ type: types.UPDATE_CART_START });
 
   const options = {
     method: 'POST',
@@ -82,7 +82,7 @@ export const updateCart = dispatch => async (sku, quantity) => {
 
     loadCart(dispatch);
 
-    return dispatch({ type: types.UPDATE_END });
+    return dispatch({ type: types.UPDATE_CART_END });
   }
 
   Toast.show({
@@ -91,7 +91,7 @@ export const updateCart = dispatch => async (sku, quantity) => {
     type: 'warning'
   });
 
-  return dispatch({ type: types.UPDATE_ERROR });
+  return dispatch({ type: types.UPDATE_CART_ERROR });
 }
 
 export const removeFromCart = dispatch => async (sku) => {
@@ -120,3 +120,7 @@ export const removeFromCart = dispatch => async (sku) => {
 
   return dispatch({ type: types.REMOVE_FROM_CART_ERROR });
 }
+
+export const filterProducts = dispatch => (filterTerm) => dispatch({ type: types.FILTER_PRODUCTS, payload: filterTerm });
+
+export const filterCart = dispatch => (filterTerm) => dispatch({ type: types.FILTER_CART, payload: filterTerm });

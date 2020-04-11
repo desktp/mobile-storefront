@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 import { Card, CardItem, Text, Body, Button, View, Icon, Input, Item } from 'native-base';
 import { Image, StyleSheet } from 'react-native';
 
-import { addToCart } from '../../actions';
-import { useStateValue } from '../../state';
-
-export default ({ product = {} }) => {
+export default ({ product = {}, addToCart }) => {
   const [qtyToAdd, setQtyToAdd] = useState(1);
-  const [, dispatch] = useStateValue();
 
   const increaseQty = () => setQtyToAdd(Number(qtyToAdd) + 1);
   const decreaseQty = () => setQtyToAdd(Number(qtyToAdd) - 1);
 
   const handleSetQtyToAdd = (qty) => {
-    if (Number(qty) === NaN) return;
+    const nQty = Number(qty);
+    if (nQty === NaN || nQty < 0) return;
     setQtyToAdd(Number(qty));
   }
 
-  const submitAddToCart = () => addToCart(dispatch)(product.sku, qtyToAdd);
+
+  const submitAddToCart = () => addToCart(product.sku, qtyToAdd);
 
   const splitPrice = (product.price.toString() || '').split('.');
 

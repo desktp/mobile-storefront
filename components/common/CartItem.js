@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Card, CardItem, Text, Left, Right, Body, Button, View, Icon, Input, Item } from 'native-base';
+import { Card, Text, Button, View, Icon, Input, Item } from 'native-base';
 import { Image, StyleSheet } from 'react-native';
-
-import { addToCart } from '../../actions';
-import { useStateValue } from '../../state';
 
 export default ({ cartItem = {}, removeFromCart, updateCart }) => {
   const { product, quantity = 0 } = cartItem;
