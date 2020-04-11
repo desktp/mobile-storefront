@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Header, Item, Input, Icon, Button, Text, Body, Right, Left } from 'native-base';
+import { Platform, StyleSheet } from 'react-native';
+import { Header, Item, Input, Icon, Button, Text, Body, Right, Left, Badge } from 'native-base';
+
+import { useStateValue } from '../state';
 
 export default ({ scene, previous, navigation }) => {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [{ cart }] = useStateValue();
 
   const { options } = scene.descriptor;
   const title =
@@ -44,9 +48,20 @@ export default ({ scene, previous, navigation }) => {
           {scene.route.name !== 'Cart' && 
             <Button transparent onPress={() => navigation.navigate('Cart')}>
               <Icon name='ios-cart' />
+              <Badge style={styles.badge} />
             </Button>
           }
       </Right>
     </Header>
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    width: 10,
+    height: 12,
+  }
+});
