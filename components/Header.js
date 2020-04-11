@@ -48,7 +48,7 @@ export default ({ scene, previous, navigation }) => {
           {scene.route.name !== 'Cart' && 
             <Button transparent onPress={() => navigation.navigate('Cart')}>
               <Icon name='ios-cart' />
-              <Badge style={styles.badge} />
+              {cart.length ? <Badge style={styles.badge} /> : <></>}
             </Button>
           }
       </Right>

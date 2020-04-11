@@ -1,23 +1,37 @@
 import React from 'react';
 import { Container, Text } from 'native-base';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import { useStateValue } from '../state';
+import { updateCart, removeFromCart } from '../actions';
 
 import { CartItem } from './common';
 
-export default ({ navigation }) => {
-  const [{ cart }] = useStateValue();
+export default () => {
+  const [{ cart }, dispatch] = useStateValue();
 
-  if (!cart.length) return <Text>Loading</Text>;
+  if (!cart.length) return (
+    <Container style={styles.empty}>
+      <Text>:(</Text>
+      <Text>Seu carrinho está vazio!</Text>
+      <Text>Que tal adicionar alguns produtos?</Text>
+    </Container>
+  );
 
   return (
     <Container>
       <FlatList
         data={cart}
-        renderItem={({ item }) => <CartItem cartItem={item} />}
+        renderItem={({ item }) => <CartItem cartItem={item} updateCart={updateCart(dispatch)} removeFromCart={removeFromCart(dispatch)} />}
         keyExtractor={item => item.product.sku}
       />
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  empty: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})

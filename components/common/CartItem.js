@@ -5,21 +5,22 @@ import { Image, StyleSheet } from 'react-native';
 import { addToCart } from '../../actions';
 import { useStateValue } from '../../state';
 
-export default ({ cartItem = {} }) => {
+export default ({ cartItem = {}, removeFromCart, updateCart }) => {
   const { product, quantity = 0 } = cartItem;
 
   const [qtyToAdd, setQtyToAdd] = useState(quantity);
-  const [, dispatch] = useStateValue();
 
-  const increaseQty = () => setQtyToAdd(Number(qtyToAdd) + 1);
-  const decreaseQty = () => setQtyToAdd(Number(qtyToAdd) - 1);
+  const increaseQty = () => handleSetQtyToAdd(Number(qtyToAdd) + 1);
+  const decreaseQty = () => handleSetQtyToAdd(Number(qtyToAdd) - 1);
 
   const handleSetQtyToAdd = (qty) => {
-    if (Number(qty) === NaN) return;
+    const nQty = Number(qty);
+    if (nQty === NaN || nQty < 0) return;
     setQtyToAdd(Number(qty));
   }
 
-  const submitRemoveFromCart = () => addToCart(dispatch)(product.sku, qtyToAdd);
+  const submitRemoveFromCart = () => removeFromCart(product.sku);
+  const submitUpdateCart = () => qtyToAdd === 0 ? submitRemoveFromCart() : updateCart(product.sku, qtyToAdd);
 
   const splitPrice = (product.price.toString() || '').split('.');
 
@@ -61,7 +62,7 @@ export default ({ cartItem = {} }) => {
           </Button>
         </View>
         <View style={styles.cartActionsContainer}>
-          <Button transparent disabled={!pendingChanges} onPress={() => {}}>
+          <Button transparent disabled={!pendingChanges} onPress={submitUpdateCart}>
             <Icon style={{ color: !pendingChanges ? 'grey' : '#32CD32', fontSize: 34 }} name='ios-checkmark' />
           </Button>
           <Button transparent onPress={submitRemoveFromCart}>

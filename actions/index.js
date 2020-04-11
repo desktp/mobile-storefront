@@ -60,3 +60,63 @@ export const addToCart = dispatch => async (sku, quantity) => {
 
   return dispatch({ type: types.ADD_TO_CART_ERROR });
 }
+
+export const updateCart = dispatch => async (sku, quantity) => {
+  dispatch({ type: types.UPDATE_START });
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ sku, quantity })
+  };
+
+  const response = await fetch('http://test.cfarma.cc/api/cart/add', options);
+
+  if (response.ok) {
+    Toast.show({
+      text: 'Carrinho atualizado!',
+      duration: 3000
+    });
+
+    loadCart(dispatch);
+
+    return dispatch({ type: types.UPDATE_END });
+  }
+
+  Toast.show({
+    text: 'Ocorreu um problema, tente novamente',
+    duration: 3000,
+    type: 'warning'
+  });
+
+  return dispatch({ type: types.UPDATE_ERROR });
+}
+
+export const removeFromCart = dispatch => async (sku) => {
+  dispatch({ type: types.REMOVE_FROM_CART_START });
+
+  const options = { method: 'DELETE' };
+
+  const response = await fetch(`http://test.cfarma.cc/api/cart/remove/${sku}`, options);
+
+  if (response.ok) {
+    Toast.show({
+      text: 'Removido do carrinho!',
+      duration: 3000
+    });
+
+    loadCart(dispatch);
+
+    return dispatch({ type: types.REMOVE_FROM_CART_END });
+  }
+
+  Toast.show({
+    text: 'Ocorreu um problema, tente novamente',
+    duration: 3000,
+    type: 'warning'
+  });
+
+  return dispatch({ type: types.REMOVE_FROM_CART_ERROR });
+}
