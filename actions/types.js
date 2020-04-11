@@ -6,3 +6,7 @@ export const LOAD_PRODUCTS_ERROR = 'LOAD_PRODUCTS_ERROR';
 export const LOAD_CART_START = 'LOAD_CART_START';
 export const LOAD_CART_END = 'LOAD_CART_END';
 export const LOAD_CART_ERROR = 'LOAD_CART_ERROR';
+
+export const ADD_TO_CART_START = 'ADD_TO_CART_START';
+export const ADD_TO_CART_END = 'ADD_TO_CART_END';
+export const ADD_TO_CART_ERROR = 'ADD_TO_CART_ERROR';

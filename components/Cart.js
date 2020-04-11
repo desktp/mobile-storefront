@@ -6,17 +6,11 @@ import { useStateValue } from '../state';
 import { loadProducts, loadCart } from '../actions';
 
 export default ({ navigation }) => {
-  const [{ products, loadingProducts }, dispatch] = useStateValue();
+  const [{ cart, loadingProducts }, dispatch] = useStateValue();
 
   return (
     <Container>
-      <Header searchBar rounded>
-        <Item>
-          <Icon name="ios-search" />
-          <Input placeholder="Buscar..." />
-        </Item>
-      </Header>
-      <Text>Cartpage</Text>
+      <Text>{JSON.stringify(cart)}</Text>
     </Container>
   );
 }
